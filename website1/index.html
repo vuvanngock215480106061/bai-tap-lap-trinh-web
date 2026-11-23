@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Website 1 - Gọi API Node-RED</title>
+</head>
+<body>
+    <h2>Danh sách sinh viên từ API</h2>
+    <button onclick="goiApi()">Tải dữ liệu API</button>
+    <p id="trang-thai"></p>
+    <ul id="danh-sach"></ul>
+
+    <script>
+        async function goiApi() {
+            try {
+                const response = await fetch('/api/tacke');
+                const data = await response.json();
+
+                if (data.ok === 1) {
+                    document.getElementById('trang-thai').innerText = 
+                        `Trạng thái: ${data.msg} | Tổng tiền: ${data.tong_tien}`;
+
+                    const ul = document.getElementById('danh-sach');
+                    ul.innerHTML = '';
+                    data.dssv.forEach(sv => {
+                        const li = document.createElement('li');
+                        li.innerText = `Tên: ${sv.name} - Tiền: ${sv.money}`;
+                        ul.appendChild(li);
+                    });
+                }
+            } catch (error) {
+                document.getElementById('trang-thai').innerText = 'Lỗi gọi API: ' + error;
+            }
+        }
+    </script>
+</body>
+</html>

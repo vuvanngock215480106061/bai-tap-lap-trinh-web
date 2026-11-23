@@ -1,0 +1,5 @@
+mariadb/
+mysql/
+db_data/
+*.log
+node_modules/
